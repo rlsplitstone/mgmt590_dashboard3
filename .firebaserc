@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "nba-analytics-purdue"
+  },
+  "targets": {
+    "nba-analytics-purdue": {
+      "hosting": {
+        "production": [
+          "nba-analytics-purdue"
+        ],
+        "staging": [
+          "nba-analytics-purdue-staging"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
