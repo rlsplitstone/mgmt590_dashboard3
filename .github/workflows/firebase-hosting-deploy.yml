@@ -4,22 +4,48 @@ on:
   push:
     branches:
       - main
+      - feature/new-dashboard
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
-      - name: Deploy to Firebase Hosting
-        run: npx firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy to Production (Main Branch)
+        if: github.ref == 'refs/heads/main'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NBA_ANALYTICS_PURDUE }}'
+          channelId: live
+          projectId: nba-analytics-purdue
+          target: production
+
+      - name: Deploy to Staging (Feature Branch)
+        if: github.ref == 'refs/heads/feature/new-dashboard'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NBA_ANALYTICS_PURDUE }}'
+          channelId: live
+          projectId: nba-analytics-purdue
+          target: staging
