@@ -1,0 +1,21 @@
+player,team,position,age,salary_millions,performance_score,ps_per_million,value_rating
+Giannis Antetokounmpo,MIL,PF,28,45.6,95,2.08,Good Value
+Jayson Tatum,BOS,SF,25,32.6,88,2.7,Good Value
+Joel Embiid,PHI,C,29,47.6,85,1.79,Fair Value
+Luka Doncic,DAL,PG,24,40.1,92,2.29,Good Value
+Ja Morant,MEM,PG,23,12.1,78,6.45,Excellent Value
+Devin Booker,PHO,SG,26,36.0,82,2.28,Good Value
+Kevin Durant,PHO,SF,34,44.1,89,2.02,Good Value
+Stephen Curry,GSW,PG,35,48.1,90,1.87,Fair Value
+Nikola Jokic,DEN,C,28,47.6,96,2.02,Good Value
+Anthony Davis,LAL,PF,30,40.6,84,2.07,Good Value
+LeBron James,LAL,SF,38,44.5,88,1.98,Fair Value
+Kyrie Irving,DAL,PG,31,38.9,85,2.19,Good Value
+Jimmy Butler,MIA,SF,33,37.7,83,2.2,Good Value
+Damian Lillard,POR,PG,32,45.6,87,1.91,Fair Value
+Bam Adebayo,MIA,C,26,30.4,82,2.7,Good Value
+Darius Garland,CLE,PG,23,8.9,74,8.31,Excellent Value
+Cade Cunningham,DET,PG,22,10.6,68,6.42,Excellent Value
+Paolo Banchero,ORL,PF,20,11.1,70,6.31,Excellent Value
+Jalen Brunson,NYK,PG,26,26.3,81,3.08,Great Value
+Evan Mobley,CLE,PF,22,8.9,73,8.2,Excellent Value

@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* NBA-themed color palette */
+  --background: oklch(0.98 0.005 240);
+  --foreground: oklch(0.15 0.02 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 240);
+  
+  /* NBA primary colors - deep blue */
+  --primary: oklch(0.25 0.15 240);
+  --primary-foreground: oklch(0.98 0.005 240);
+  
+  /* NBA secondary colors - orange accent */
+  --secondary: oklch(0.95 0.02 30);
+  --secondary-foreground: oklch(0.25 0.15 240);
+  
+  --muted: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.45 0.05 240);
+  
+  /* NBA accent - vibrant orange */
+  --accent: oklch(0.65 0.25 30);
+  --accent-foreground: oklch(0.98 0.005 240);
+  
+  --destructive: oklch(0.6 0.25 15);
+  --border: oklch(0.9 0.02 240);
+  --input: oklch(0.95 0.01 240);
+  --ring: oklch(0.65 0.25 30);
+  
+  /* Enhanced chart colors for NBA data */
+  --chart-1: oklch(0.65 0.25 30); /* Orange */
+  --chart-2: oklch(0.25 0.15 240); /* Deep Blue */
+  --chart-3: oklch(0.55 0.2 120); /* Green */
+  --chart-4: oklch(0.6 0.25 15); /* Red */
+  --chart-5: oklch(0.45 0.15 280); /* Purple */
+  
+  --sidebar: oklch(0.97 0.01 240);
+  --sidebar-foreground: oklch(0.15 0.02 240);
+  --sidebar-primary: oklch(0.25 0.15 240);
+  --sidebar-primary-foreground: oklch(0.98 0.005 240);
+  --sidebar-accent: oklch(0.95 0.02 30);
+  --sidebar-accent-foreground: oklch(0.25 0.15 240);
+  --sidebar-border: oklch(0.9 0.02 240);
+  --sidebar-ring: oklch(0.65 0.25 30);
+}
+
+.dark {
+  --background: oklch(0.08 0.02 240);
+  --foreground: oklch(0.95 0.01 240);
+  --card: oklch(0.12 0.02 240);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.12 0.02 240);
+  --popover-foreground: oklch(0.95 0.01 240);
+  --primary: oklch(0.7 0.2 30);
+  --primary-foreground: oklch(0.08 0.02 240);
+  --secondary: oklch(0.15 0.02 240);
+  --secondary-foreground: oklch(0.95 0.01 240);
+  --muted: oklch(0.15 0.02 240);
+  --muted-foreground: oklch(0.6 0.05 240);
+  --accent: oklch(0.7 0.2 30);
+  --accent-foreground: oklch(0.08 0.02 240);
+  --destructive: oklch(0.7 0.2 15);
+  --border: oklch(0.2 0.02 240);
+  --input: oklch(0.15 0.02 240);
+  --ring: oklch(0.7 0.2 30);
+  --chart-1: oklch(0.7 0.2 30);
+  --chart-2: oklch(0.6 0.15 240);
+  --chart-3: oklch(0.65 0.2 120);
+  --chart-4: oklch(0.7 0.2 15);
+  --chart-5: oklch(0.65 0.15 280);
+  --sidebar: oklch(0.12 0.02 240);
+  --sidebar-foreground: oklch(0.95 0.01 240);
+  --sidebar-primary: oklch(0.7 0.2 30);
+  --sidebar-primary-foreground: oklch(0.08 0.02 240);
+  --sidebar-accent: oklch(0.15 0.02 240);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
+  --sidebar-border: oklch(0.2 0.02 240);
+  --sidebar-ring: oklch(0.7 0.2 30);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+/* Custom NBA Dashboard Styles */
+.dashboard-header {
+  background: linear-gradient(135deg, oklch(0.25 0.15 240) 0%, oklch(0.35 0.12 240) 100%);
+  @apply text-white shadow-lg;
+}
+
+.metric-card {
+  @apply bg-card border border-border rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-200;
+  background: linear-gradient(145deg, oklch(1 0 0) 0%, oklch(0.99 0.005 240) 100%);
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+}
+
+.metric-value {
+  @apply text-3xl font-bold text-primary;
+}
+
+.metric-label {
+  @apply text-sm font-medium text-muted-foreground uppercase tracking-wide;
+}
+
+.metric-change {
+  @apply text-sm font-medium;
+}
+
+.metric-change.positive {
+  @apply text-green-600;
+}
+
+.metric-change.negative {
+  @apply text-red-600;
+}
+
+.nav-button {
+  @apply px-6 py-3 rounded-lg font-medium transition-all duration-200;
+}
+
+.nav-button.active {
+  @apply bg-primary text-primary-foreground shadow-md;
+}
+
+.nav-button:not(.active) {
+  @apply bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground;
+}
+
+.chart-container {
+  @apply bg-card border border-border rounded-lg p-6 shadow-sm;
+}
+
+.player-card {
+  @apply bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-200;
+}
+
+.player-card:hover {
+  transform: translateY(-1px);
+}
+
+.status-badge {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+}
+
+.status-badge.starter {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-badge.rotation {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-badge.bench {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.efficiency-bar {
+  @apply h-2 rounded-full overflow-hidden;
+}
+
+.efficiency-fill {
+  @apply h-full transition-all duration-500 ease-out;
+}
+
+.value-indicator {
+  @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
+}
+
+.value-indicator.excellent {
+  @apply bg-green-100 text-green-800;
+}
+
+.value-indicator.good {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.value-indicator.average {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.value-indicator.poor {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .metric-card {
+    @apply p-4;
+  }
+  
+  .metric-value {
+    @apply text-2xl;
+  }
+  
+  .nav-button {
+    @apply px-4 py-2 text-sm;
+  }
+}
+
