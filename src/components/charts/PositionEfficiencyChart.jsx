@@ -1,3 +1,4 @@
+import React from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -6,6 +7,56 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
  * Shows a bar chart comparing player efficiency across different positions
  */
 export function PositionEfficiencyChart({ data = [], loading = false }) {
+  // Process the player data into position-aggregated data
+  const processedData = React.useMemo(() => {
+    if (!data || data.length === 0) return []
+    
+    // Standard position mapping for consistency
+    const standardizePosition = (pos) => {
+      pos = pos ? pos.toUpperCase() : '';
+      if (pos.includes('POINT') || pos === 'PG') return 'PG';
+      if (pos.includes('SHOOTING') || pos === 'SG') return 'SG';
+      if (pos.includes('SMALL') || pos === 'SF') return 'SF';
+      if (pos.includes('POWER') || pos === 'PF') return 'PF';
+      if (pos === 'C' || pos.includes('CENTER')) return 'C';
+      if (pos === 'G') return 'G'; // Guard (generic)
+      if (pos === 'F') return 'F'; // Forward (generic)
+      if (pos === 'W') return 'W'; // Wing (generic)
+      return pos || 'Unknown';
+    };
+    
+    // Group players by position and calculate averages
+    const positionGroups = {};
+    data.forEach(player => {
+      const position = standardizePosition(player.position);
+      if (!positionGroups[position]) {
+        positionGroups[position] = {
+          position,
+          players: [],
+          efficiency_sum: 0,
+          player_count: 0
+        };
+      }
+      
+      // Get the efficiency score from any available field
+      const efficiency = player.efficiency_score || 
+                         player.performance_score || 
+                         player.efficiency_rating || 0;
+      
+      if (efficiency > 0) {
+        positionGroups[position].players.push(player);
+        positionGroups[position].efficiency_sum += efficiency;
+        positionGroups[position].player_count += 1;
+      }
+    });
+    
+    // Calculate averages and format for chart
+    return Object.values(positionGroups).map(group => ({
+      position: group.position,
+      avg_efficiency: group.player_count > 0 ? group.efficiency_sum / group.player_count : 0,
+      player_count: group.player_count
+    })).filter(group => group.avg_efficiency > 0).sort((a, b) => a.position.localeCompare(b.position));
+  }, [data]);
   // Custom tooltip
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -45,7 +96,7 @@ export function PositionEfficiencyChart({ data = [], loading = false }) {
           <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={data}
+                data={processedData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />

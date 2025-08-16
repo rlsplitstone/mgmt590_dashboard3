@@ -6,6 +6,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
  * Shows a scatter plot of player age vs value efficiency (PS/$M) with potential visualization
  */
 export function ValueAgeChart({ data = [], loading = false }) {
+  // Process data to ensure all fields are available
+  const processedData = data.map(player => ({
+    ...player,
+    // Ensure all required fields have fallbacks
+    player: player.player || player.player_name || player.name || 'Unknown Player',
+    team: player.team || 'Unknown Team',
+    position: player.position || 'Unknown',
+    age: player.age || 25,
+    salary_millions: player.salary_millions || 
+                     (player.salary ? (player.salary > 1000 ? player.salary / 1000000 : player.salary) : 1),
+    ps_per_million: player.ps_per_million || 
+                    player.value_ratio || 
+                    (player.performance_score && player.salary_millions ? 
+                      player.performance_score / player.salary_millions : 0),
+    potential_score: player.potential_score || player.future_value || 75,
+    risk_level: player.risk_level || 'Medium'
+  }));
   // Custom tooltip
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -94,10 +111,10 @@ export function ValueAgeChart({ data = [], loading = false }) {
                 {/* Players with risk-based coloring */}
                 <Scatter 
                   name="Players" 
-                  data={data} 
+                  data={processedData} 
                   fillOpacity={0.7}
                 >
-                  {data.map((entry, index) => (
+                  {processedData.map((entry, index) => (
                     <cell key={`cell-${index}`} fill={getRiskColor(entry.risk_level)} />
                   ))}
                 </Scatter>
