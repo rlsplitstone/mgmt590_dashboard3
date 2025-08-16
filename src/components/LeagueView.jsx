@@ -127,18 +127,37 @@ function PositionDistributionChart({ data }) {
   const chartData = useMemo(() => {
     if (!data || data.length === 0) return []
     
+    // Define standard position names for consistency
+    const standardPositions = {
+      'PG': 'Point Guard',
+      'SG': 'Shooting Guard',
+      'SF': 'Small Forward',
+      'PF': 'Power Forward',
+      'C': 'Center'
+    }
+    
+    // Count players by position
     const positionCounts = data.reduce((acc, player) => {
       const position = player.position || 'Unknown'
       acc[position] = (acc[position] || 0) + 1
       return acc
     }, {})
 
-    const colors = ['#1e40af', '#059669', '#dc2626', '#ea580c', '#7c3aed']
+    // Colors for different positions
+    const colors = {
+      'PG': '#1e40af', // Blue for Point Guards
+      'SG': '#059669', // Green for Shooting Guards
+      'SF': '#dc2626', // Red for Small Forwards
+      'PF': '#ea580c', // Orange for Power Forwards
+      'C': '#7c3aed',  // Purple for Centers
+      'Unknown': '#6b7280' // Gray for unknown positions
+    }
     
-    return Object.entries(positionCounts).map(([position, count], index) => ({
-      position,
+    return Object.entries(positionCounts).map(([position, count]) => ({
+      position: standardPositions[position] || position,
+      shortPosition: position,
       count,
-      fill: colors[index % colors.length]
+      fill: colors[position] || '#6b7280'
     }))
   }, [data])
 
@@ -157,7 +176,12 @@ function PositionDistributionChart({ data }) {
             <Cell key={`cell-${index}`} fill={entry.fill} />
           ))}
         </Pie>
-        <Tooltip />
+        <Tooltip formatter={(value, name, props) => {
+          if (name === 'count') {
+            return [`${value} players`, props.payload.position]
+          }
+          return [value, name]
+        }} />
       </RechartsPieChart>
     </ResponsiveContainer>
   )
@@ -203,18 +227,26 @@ function TeamEfficiencyPayrollChart({ data }) {
 
 // Main League View Component
 export function LeagueView({ data, loading, filters }) {
-  const { financialPlayerData = [], financialTeamData = [] } = data
+  const { financialPlayerData = [], financialTeamData = [], operationsPlayerData = [] } = data
 
   // Apply filters to data
   const filteredPlayerData = useMemo(() => {
-    if (!financialPlayerData || financialPlayerData.length === 0) return []
+    // Combine financial and operations player data to ensure all positions are covered
+    const allPlayerData = [...(financialPlayerData || []), ...(operationsPlayerData || [])]
+    if (allPlayerData.length === 0) return []
     
-    return financialPlayerData.filter(player => {
+    // Create a unique set of players by name to avoid duplicates
+    const uniquePlayers = Array.from(
+      new Map(allPlayerData.map(player => [player.player || player.player_name, player]))
+      .values()
+    )
+    
+    return uniquePlayers.filter(player => {
       const matchesTeam = filters.selectedTeam === 'all' || player.team === filters.selectedTeam
       const matchesPosition = filters.selectedPosition === 'all' || player.position === filters.selectedPosition
       return matchesTeam && matchesPosition
     })
-  }, [financialPlayerData, filters])
+  }, [financialPlayerData, operationsPlayerData, filters])
 
   const filteredTeamData = useMemo(() => {
     if (!financialTeamData || financialTeamData.length === 0) return []

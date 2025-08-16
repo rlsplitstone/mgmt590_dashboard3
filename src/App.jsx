@@ -514,7 +514,7 @@ function App() {
     selectedPosition: 'all'
   })
 
-  // Extract available teams from data
+  // Extract available teams and positions from data
   const availableTeams = useMemo(() => {
     const teams = new Set()
     if (data.financialPlayerData) {
@@ -524,6 +524,22 @@ function App() {
     }
     return Array.from(teams).sort()
   }, [data.financialPlayerData])
+
+  // Extract available positions from data
+  const availablePositions = useMemo(() => {
+    const positions = new Set(['PG', 'SG', 'SF', 'PF', 'C'])
+    if (data.financialPlayerData) {
+      data.financialPlayerData.forEach(player => {
+        if (player.position) positions.add(player.position)
+      })
+    }
+    if (data.operationsPlayerData) {
+      data.operationsPlayerData.forEach(player => {
+        if (player.position) positions.add(player.position)
+      })
+    }
+    return Array.from(positions).sort()
+  }, [data.financialPlayerData, data.operationsPlayerData])
 
   useEffect(() => {
     const loadAllData = async () => {
@@ -660,7 +676,7 @@ function App() {
         <Filters 
           onFilterChange={setFilters} 
           availableTeams={availableTeams}
-          availablePositions={['PG', 'SG', 'SF', 'PF', 'C']}
+          availablePositions={availablePositions}
         />
 
         {/* Views */}
