@@ -57,9 +57,9 @@ function LeagueSalaryChart({ data }) {
     
     return data.map(team => ({
       team: team.team,
-      totalSalary: team.total_salary_millions || team.total_salary || 0,
-      capSpace: team.cap_space_millions || team.cap_space || 0,
-      efficiency: team.efficiency_rating || team.performance_score || 0
+      totalSalary: team.salary_millions || 0,
+      capSpace: team.salary_cap_space || 0,
+      efficiency: team.performance_score || 0
     })).sort((a, b) => b.totalSalary - a.totalSalary)
   }, [data])
 
@@ -170,8 +170,8 @@ function TeamEfficiencyPayrollChart({ data }) {
     
     return data.map(team => ({
       team: team.team,
-      payroll: team.total_salary_millions || team.total_salary || 0,
-      efficiency: team.efficiency_rating || team.performance_score || 0,
+      payroll: team.salary_millions || 0,
+      efficiency: team.performance_score || 0,
       winRate: team.win_percentage || Math.random() * 100 // Fallback for demo
     })).filter(team => team.payroll > 0)
   }, [data])
@@ -203,7 +203,7 @@ function TeamEfficiencyPayrollChart({ data }) {
 
 // Main League View Component
 export function LeagueView({ data, loading, filters }) {
-  const { financialPlayerData = [], financialTeamData = [], operationsPlayerData = [] } = data
+  const { financialPlayerData = [], financialTeamData = [] } = data
 
   // Apply filters to data
   const filteredPlayerData = useMemo(() => {
@@ -239,10 +239,10 @@ export function LeagueView({ data, loading, filters }) {
 
     const totalPlayers = filteredPlayerData.length
     const avgSalary = filteredPlayerData.reduce((sum, p) => sum + (p.salary_millions || 0), 0) / totalPlayers
-    const totalPayroll = filteredTeamData.reduce((sum, t) => sum + (t.total_salary_millions || 0), 0)
+    const totalPayroll = filteredTeamData.reduce((sum, t) => sum + (t.salary_millions || 0), 0)
     const avgAge = filteredPlayerData.reduce((sum, p) => sum + (p.age || 26), 0) / totalPlayers
     const topPerformers = filteredPlayerData.filter(p => (p.performance_score || 0) > 85).length
-    const avgEfficiency = filteredTeamData.reduce((sum, t) => sum + (t.efficiency_rating || 0), 0) / filteredTeamData.length
+    const avgEfficiency = filteredTeamData.reduce((sum, t) => sum + (t.performance_score || 0), 0) / filteredTeamData.length
 
     return {
       totalPlayers,
